@@ -47,8 +47,31 @@
 --> the first false is because awa already had the book; the second one is because we cannot add him again since he is already waiting
 
 **Task 3.** Draw a Mermaid class diagram of `Book` and `Queue~T~`, with members, the relationship between them, and multiplicities.
+-->
+```mermaid
+classDiagram
+    class Book {
+        -title: string
+        -borrower: string
+        -reservations: Queue~string~
+        +borrow(member: string): boolean
+        +giveBack(): boolean
+        +waiting(): number
+    }
+
+    class Queue~T~ {
+        -items: T[]
+        +enqueue(item: T): void
+        +dequeue(): T | undefined
+        +size(): number
+        +includes(item: T): boolean
+    }
+
+    Book *-- "1" Queue~string~ : reservations
+```
 
 **Question 11.** Which relationship did you choose, and why?
+-->I use composition because Book contains a queue object and this one is used as part of the book class to store names of those who are waiting.
 
 **Prediction 4.** Copy the red underline. Then run anyway: will it print `true`, `false`, or stop?
 -->'T' only refers to a type, but is being used as a value here.
@@ -58,4 +81,7 @@
 -->it will print: Things Fall Apart ; undefined
 
 **Question 12.** Explain both results with one fact about what happens to types when `node` runs a `.ts` file. Where must data from outside the program be checked?
--->
+-->When typescript is converted to javascript, types are erased, so they no more exist when the program runs.They must be checked at runtime.
+
+**Question 13.** `best()` returns `T`. What could the caller no longer do if it returned `HasId` instead?
+--> If `HasID` was returned, we would be able to use the methods specific to the object. For example if best returns Book, we can call `describe()` while if it returns HasId, it will only return `getId()`;
